@@ -50,10 +50,17 @@ dict_input = return_dict_all_grz()
 count_key_from_dict = int(len(dict_input))
 print(count_key_from_dict)
 
+list_grz = []
+for key, value in dict_input.items():
+    print(key, value)
+    print(type(dict_input.items()))
+
+"""
 x = 0
 for key, value in dict_input.items():
     count = Counter(value)
     for el in count:
         print(count[el])
+"""
 
 
