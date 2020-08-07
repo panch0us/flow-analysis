@@ -25,6 +25,7 @@ for grz_1 in set(test_list_1):
         i = i + 1
 """
 
+
 def return_dict_all_grz():
     """Функция для приема любого количества списков ГРЗ, переработки их в нумерованный словарь,
     и возвращении полногго словаря с нумерованными списками ГРЗ"""
@@ -36,31 +37,38 @@ def return_dict_all_grz():
         list_input = []
         file = input('Введити название файла: ')
         #result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
-        result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
+        #result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
+        result = pandas.read_csv('C:/Users/panchous/Desktop/home/test/potok/csv/number/' + file, encoding='utf_16_le')
         for el in result['ГРЗ']:
             list_input.append(el)
-            dict_input[counter] = list(list_input)
-        stop = input('Введите любой символ для завершения добавления файлов: ')
-        #print(dict_input[counter])
+            dict_input[counter] = list_input
+        stop = input('Нажмите клавишу ENTER для продолжения.\nДля завершения введите любой символ и нажмите ENTER ')
         counter = counter + 1
     return dict_input
 
 dict_input = return_dict_all_grz()
 
-count_key_from_dict = int(len(dict_input))
-print(count_key_from_dict)
+count_element_from_dict = len(dict_input)
 
-list_grz = []
-for key, value in dict_input.items():
-    print(key, value)
-    print(type(dict_input.items()))
+i = 1
+b = 2
+
+while i < count_element_from_dict and b < (count_element_from_dict + 1):
+     print('\nАнализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b))
+     for el in set(dict_input[i]):
+         if el in dict_input[b]:
+             print('ГРЗ ' + str(el) + '\t из списка № ' + str(i) + '\t---> совпадение со списком № ' + str(b))
+     b = b + 1
 
 """
-x = 0
-for key, value in dict_input.items():
-    count = Counter(value)
-    for el in count:
-        print(count[el])
+     if count_element_from_dict > 2:
+         i = i + 1
+         b = b + 1
+         print('Анализ совпадений ГРЗ списка № ' + str(i) + ' со списком № '
++ str(b))
+         for el in set(dict_input[i]):
+             if el in dict_input[b]:
+                 print('ГРЗ ' + str(el) + '\t из списка № ' + str(i) +
+'\t---> совпадение со списком № ' + str(b))
 """
-
 
