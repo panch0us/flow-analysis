@@ -38,12 +38,12 @@ def return_dict_all_grz():
         list_input = []
         file = input('Введити название файла: ')
         # result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
-        # result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
-        result = pandas.read_csv('C:/Users/panchous/Desktop/home/test/potok/csv/number/' + file, encoding='utf_16_le')
+        result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
+        # result = pandas.read_csv('C:/Users/panchous/Desktop/home/test/potok/csv/number/' + file, encoding='utf_16_le')
         for el in result['ГРЗ']:
             list_input.append(el)
             dict_input[counter] = list_input
-        stop = input('Нажмите клавишу ENTER для продолжения.\nДля завершения введите любой символ и нажмите ENTER ')
+        stop = input('ENTER - продолжение\nСимвол + ENTER - завершение')
         counter = counter + 1
     return dict_input
 
