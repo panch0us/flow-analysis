@@ -2,6 +2,7 @@ import pandas
 # имортируем встроенный класс Counter из модуля collection, который подсчитывает количество вхождений
 # элементов в списке. (Синтаксис: a = Counter(список); a.['нужный элемент списка для подсчета'])
 from collections import Counter
+
 """
 list_grz_1 = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/targets_05.08.2020 12_05_21.csv',
                              encoding='utf_16_le')
@@ -36,8 +37,8 @@ def return_dict_all_grz():
     while stop == '':
         list_input = []
         file = input('Введити название файла: ')
-        #result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
-        #result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
+        # result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
+        # result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
         result = pandas.read_csv('C:/Users/panchous/Desktop/home/test/potok/csv/number/' + file, encoding='utf_16_le')
         for el in result['ГРЗ']:
             list_input.append(el)
@@ -46,29 +47,21 @@ def return_dict_all_grz():
         counter = counter + 1
     return dict_input
 
-dict_input = return_dict_all_grz()
 
-count_element_from_dict = len(dict_input)
+def iteration_one_to_many_lists(func_return_dict_all_grz):
+    """Функция получает словарь, состоящий из {номера: списка ГРЗ} из функции return_dict_all_grz.
+    После проводит итерацию по каждому полученному списку ГРЗ, сравнивая каждый номер списка со следующим
+    по порядку списком."""
+    dict_input = func_return_dict_all_grz()
+    count_element_from_dict = len(dict_input)
+    i = 1
+    b = 2
+    while i < count_element_from_dict and b < (count_element_from_dict + 1):
+        print('\nАнализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b))
+        for el in set(dict_input[i]):
+            if el in dict_input[b]:
+                print('ГРЗ ' + str(el) + '\t из списка № ' + str(i) + '\t---> совпадение со списком № ' + str(b))
+        b = b + 1
 
-i = 1
-b = 2
 
-while i < count_element_from_dict and b < (count_element_from_dict + 1):
-     print('\nАнализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b))
-     for el in set(dict_input[i]):
-         if el in dict_input[b]:
-             print('ГРЗ ' + str(el) + '\t из списка № ' + str(i) + '\t---> совпадение со списком № ' + str(b))
-     b = b + 1
-
-"""
-     if count_element_from_dict > 2:
-         i = i + 1
-         b = b + 1
-         print('Анализ совпадений ГРЗ списка № ' + str(i) + ' со списком № '
-+ str(b))
-         for el in set(dict_input[i]):
-             if el in dict_input[b]:
-                 print('ГРЗ ' + str(el) + '\t из списка № ' + str(i) +
-'\t---> совпадение со списком № ' + str(b))
-"""
-
+iteration_one_to_many_lists(return_dict_all_grz)
