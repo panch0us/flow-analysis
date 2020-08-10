@@ -41,6 +41,7 @@ def iteration_one_to_many_lists(func_return_dict_all_grz):
         b = b + 1
         while b < (count_element_from_dict + 1):
             print('\n----Анализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b) + '----')
+            # Применяем set(множество) к списку ГРЗ для удаления повторяющихся ГРЗ.
             for el in set(dict_input[i]):
                 if el in dict_input[b]:
                     print(str(el) + '\t из списка № ' + str(i) + '\t---> совпадение со списком № ' + str(b))
