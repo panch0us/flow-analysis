@@ -43,7 +43,7 @@ def return_dict_all_grz():
         for el in result['ГРЗ']:
             list_input.append(el)
             dict_input[counter] = list_input
-        stop = input('ENTER - продолжение\nСимвол + ENTER - завершение')
+        stop = input('[enter] - ПРОДОЛЖЕНИЕ\n[символ + enter] - ЗАВЕРШЕНИЕ')
         counter = counter + 1
     return dict_input
 
@@ -52,10 +52,13 @@ def iteration_one_to_many_lists(func_return_dict_all_grz):
     """Функция получает словарь, состоящий из {номера списка: списка ГРЗ} из функции return_dict_all_grz.
     После проводит итерацию по каждому полученному списку ГРЗ, сравнивая каждый номер первого списка со следующим
     по порядку списком."""
+    # Получаем словарь вида {№: '[список ГРЗ]} из ввоада пользователя
     dict_input = func_return_dict_all_grz()
+    # Считаем количество списков в ГРЗ в полученом словаре
     count_element_from_dict = len(dict_input)
     i = 0
     b = 1
+    # Выполняем цикл по количеству списков ГРЗ в словаре
     while i < count_element_from_dict:
         i = i + 1
         b = b + 1
