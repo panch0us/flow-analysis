@@ -37,8 +37,8 @@ def return_dict_all_grz():
     while stop == '':
         list_input = []
         file = input('Введити название файла: ')
-        # result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
-        result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
+        result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
+        # result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
         # result = pandas.read_csv('C:/Users/panchous/Desktop/home/test/potok/csv/number/' + file, encoding='utf_16_le')
         for el in result['ГРЗ']:
             list_input.append(el)
@@ -54,14 +54,18 @@ def iteration_one_to_many_lists(func_return_dict_all_grz):
     по порядку списком."""
     dict_input = func_return_dict_all_grz()
     count_element_from_dict = len(dict_input)
-    i = 1
-    b = 2
-    while i < count_element_from_dict and b < (count_element_from_dict + 1):
-        print('\nАнализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b))
-        for el in set(dict_input[i]):
-            if el in dict_input[b]:
-                print('ГРЗ ' + str(el) + '\t из списка № ' + str(i) + '\t---> совпадение со списком № ' + str(b))
+    i = 0
+    b = 1
+    while i < count_element_from_dict:
+        i = i + 1
         b = b + 1
+        while b < (count_element_from_dict + 1):
+            print('\n----Анализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b) + '----')
+            for el in set(dict_input[i]):
+                if el in dict_input[b]:
+                    print(str(el) + '\t из списка № ' + str(i) + '\t---> совпадение со списком № ' + str(b))
+            b = b + 1
+        b = 1 + i
 
 
 iteration_one_to_many_lists(return_dict_all_grz)
