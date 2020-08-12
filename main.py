@@ -14,14 +14,18 @@ def return_dict_all_grz():
     while stop == '':
         list_input = []
         file = input('Введити название файла: ')
-        result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
-        # result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
-        # result = pandas.read_csv('C:/Users/panchous/Desktop/home/test/potok/csv/number/' + file, encoding='utf_16_le')
-        for el in result['ГРЗ']:
-            list_input.append(el)
-            dict_input[counter] = list_input
-        stop = input('[enter] - ПРОДОЛЖЕНИЕ\n[символ + enter] - ЗАВЕРШЕНИЕ')
-        counter = counter + 1
+        try:
+            # result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
+            result = pandas.read_csv('C:/Users/asus/Desktop/home/test/potok/csv/номер/' + file, encoding='utf_16_le')
+            # result = pandas.read_csv('C:/Users/panchous/Desktop/home/test/potok/csv/number/' + file, encoding='utf_16_le')
+            for el in result['ГРЗ']:
+                list_input.append(el)
+                dict_input[counter] = list_input
+            stop = input('ПРОДОЛЖЕНИЕ [enter]\nЗАВЕРШЕНИЕ [символ + enter]')
+            counter = counter + 1
+        except FileNotFoundError:
+            print('Файл \'' + str(file) + '\' отсутвует в дирректории C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/')
+            continue
     return dict_input
 
 
