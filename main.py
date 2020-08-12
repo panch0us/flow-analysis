@@ -3,6 +3,8 @@ import pandas
 # элементов в списке. (Синтаксис: a = Counter(список); a.['нужный элемент списка для подсчета'])
 #from collections import Counter
 
+# указываем дирректорию расположения файлов для дальнейшей обработки
+DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
 
 def return_dict_all_grz():
     """Функция принимает любого количество файлов с ГРЗ формата CSV для переработки их в нумерованный словарь,
@@ -11,24 +13,28 @@ def return_dict_all_grz():
     counter = 1
     list_input = []
     dict_input = {counter: list_input}
+    other_grz = []
     while stop == '':
         list_input = []
         file = input('Введити название файла: ')
         try:
-            # result = pandas.read_csv('C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/' + file, encoding='utf_16_le')
-            result = pandas.read_csv('C:/Users/asus/Desktop/home/test/analiz/csv/number/' + file, encoding='utf_16_le')
-            # result = pandas.read_csv('C:/Users/panchous/Desktop/home/test/potok/csv/number/' + file, encoding='utf_16_le')
+            # result = pandas.read_csv(DIRECTORY + file, encoding='utf_16_le')
+            result = pandas.read_csv(DIRECTORY + file, encoding='utf_16_le')
+            # result = pandas.read_csv(DIRECTORY + file, encoding='utf_16_le')
             for el in result['ГРЗ']:
                 list_input.append(el)
                 dict_input[counter] = list_input
+                if str(el[-2:]) != str(32):
+                    other_grz.append(el)
             stop = input('ПРОДОЛЖЕНИЕ [enter]\nЗАВЕРШЕНИЕ [символ + enter]')
             counter = counter + 1
         except FileNotFoundError:
             print('Файл \'' + str(file) + '\' отсутвует в дирректории C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/')
             continue
-    return dict_input
-
-dict_input = return_dict_all_grz()
+        except PermissionError:
+            print('Ошибка: "PermissionError", попробуйте снова')
+            continue
+    return dict_input, other_grz
 
 
 def iteration_one_to_many_lists(dict_input_user):
@@ -57,6 +63,7 @@ def iteration_one_to_many_lists(dict_input_user):
 
 
 def iteration_summ_list(dict_input_user):
+    """Добавить описание"""
     a = 1
     b = 2
     i = 0
@@ -86,5 +93,11 @@ def iteration_summ_list(dict_input_user):
         b = a + 1
 
 
+dict_input, other = return_dict_all_grz()
+
+
 first = iteration_one_to_many_lists(dict_input)
 iteration_summ_list(dict_input)
+
+print('Список номеров из других регионов, а также с нечитаемым регионом')
+print(other)
