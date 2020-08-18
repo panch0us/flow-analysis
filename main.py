@@ -4,7 +4,8 @@ import pandas
 #from collections import Counter
 
 # указываем дирректорию расположения файлов для дальнейшей обработки
-DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
+#DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
+DIRECTORY = 'C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/'
 
 def return_dict_all_grz():
     """Функция принимает любого количество файлов с ГРЗ формата CSV для переработки их в нумерованный словарь,
