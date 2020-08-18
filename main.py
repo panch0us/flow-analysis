@@ -1,4 +1,6 @@
 import pandas
+# импортируем openpyxl для работы с таблицами xlsx
+import openpyxl
 # имортируем встроенный класс Counter из модуля collection, который подсчитывает количество вхождений
 # элементов в списке. (Синтаксис: a = Counter(список); a.['нужный элемент списка для подсчета'])
 #from collections import Counter
