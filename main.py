@@ -57,10 +57,10 @@ def iteration_one_to_many_lists(dict_input_user):
     b = 1
 
     row = 1
-    column = 0
+    column = 1
 
     row_number = 1
-    col_number = 0
+    col_number = 1
 
 
     # Выполняем цикл по количеству списков ГРЗ в словаре
@@ -68,9 +68,7 @@ def iteration_one_to_many_lists(dict_input_user):
         i = i + 1
         b = b + 1
 
-        col_number = col_number + 1
         row = row + 1
-        column = column + 1
 
         while b < (count_element_from_dict + 1):
             print('\n----Анализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b) + '----')
