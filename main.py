@@ -10,6 +10,7 @@ import openpyxl
 #DIRECTORY = 'C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/'
 DIRECTORY = 'C:/Users/panchous/PycharmProjects/data/potok_analisys/'
 
+
 def return_dict_all_grz():
     """Функция принимает любого количество файлов с ГРЗ формата CSV для переработки их в нумерованный словарь,
     и возвращает полный словарь с нумерованными списками ГРЗ"""
@@ -43,24 +44,56 @@ def iteration_one_to_many_lists(dict_input_user):
     """Функция получает словарь, состоящий из {номера списка: списка ГРЗ} из функции return_dict_all_grz.
     После проводит итерацию по каждому полученному списку ГРЗ, сравнивая каждый номер первого списка со следующим
     по порядку списком."""
+
+    wb = openpyxl.Workbook()
+    sheet = wb.active
+    sheet.title = 'data'
+
     # Получаем словарь вида {№: '[список ГРЗ]} из ввоада пользователя
     dict_input = dict_input_user
     # Считаем количество списков в ГРЗ в полученом словаре
     count_element_from_dict = len(dict_input)
     i = 0
     b = 1
+
+    row = 1
+    column = 0
+
+    row_number = 1
+    col_number = 0
+
+
     # Выполняем цикл по количеству списков ГРЗ в словаре
     while i < count_element_from_dict:
         i = i + 1
         b = b + 1
+
+        col_number = col_number + 1
+        row = row + 1
+        column = column + 1
+
         while b < (count_element_from_dict + 1):
             print('\n----Анализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b) + '----')
+
+            cell_name = sheet.cell(row=row_number, column=col_number)
+            cell_name.value = f"{i} + {b}"
+
             # Применяем set(множество) к списку ГРЗ для удаления повторяющихся ГРЗ.
             for el in set(dict_input[i]):
                 if el in dict_input[b]:
                     print(str(el) + '\t из списка № ' + str(i) + '\t---> совпадение со списком № ' + str(b))
+
+                    cell_value = sheet.cell(row=row, column=column)
+                    cell_value.value = el
+
+                    row = row + 1
+
             b = b + 1
+            col_number = col_number + 1
+            column = column + 1
+            row = 2
         b = 1 + i
+    wb.save('result.xlsx')
     return dict_input
 
 
