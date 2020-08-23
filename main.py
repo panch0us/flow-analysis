@@ -6,9 +6,9 @@ import openpyxl
 #from collections import Counter
 
 # указываем дирректорию расположения файлов для дальнейшей обработки
-#DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
+DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
 #DIRECTORY = 'C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/'
-DIRECTORY = 'C:/Users/panchous/PycharmProjects/data/potok_analisys/'
+#DIRECTORY = 'C:/Users/panchous/PycharmProjects/data/potok_analisys/'
 
 
 def return_dict_all_grz():
@@ -27,7 +27,7 @@ def return_dict_all_grz():
             for el in result['ГРЗ']:
                 list_input.append(el)
                 dict_input[counter] = list_input
-                if str(el[-2:]) != str(32):
+                if str(el)[-2:] != str(32):
                     other_grz.append(el)
             stop = input('ПРОДОЛЖЕНИЕ [enter]\nЗАВЕРШЕНИЕ [символ + enter]')
             counter = counter + 1
