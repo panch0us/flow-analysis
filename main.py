@@ -6,9 +6,12 @@ import openpyxl
 #from collections import Counter
 
 # указываем дирректорию расположения файлов для дальнейшей обработки
-DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
+#DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
 #DIRECTORY = 'C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/'
-#DIRECTORY = 'C:/Users/panchous/PycharmProjects/data/potok_analisys/'
+DIRECTORY = 'C:/Users/panchous/PycharmProjects/data/potok_analisys/'
+
+# Открываем xlsx файл
+wb = openpyxl.Workbook()
 
 
 def return_dict_all_grz():
@@ -47,10 +50,9 @@ def iteration_one_to_many_lists(dict_input_user):
     Результат сохраняется в xlsx файл.
     Функция получает словарь, состоящий из {номера списка: списка ГРЗ} из функции return_dict_all_grz."""
 
-    # Создаем файл xlsx
-    wb = openpyxl.Workbook()
-    sheet = wb.active
-    sheet.title = 'Отдельное сравнение'
+    # Создаем в открытом xlsx файле новый лист
+    wb.create_sheet(title='Отдельное сравнение', index=0)
+    sheet = wb['Отдельное сравнение']
 
     # Получаем словарь вида {№: '[список ГРЗ]} из функции return_dict_all_grz (введенные списки пользователем)
     dict_input = dict_input_user
@@ -77,7 +79,7 @@ def iteration_one_to_many_lists(dict_input_user):
             print('\n----Анализ совпадений ГРЗ списка № ' + str(i) + ' со списком № ' + str(b) + '----')
             # заполняем ячейки оглавления
             cell_name = sheet.cell(row=row_number, column=col_number)
-            cell_name.value = f"{i} + {b}"
+            cell_name.value = f"{i} и {b}"
 
             # Применяем set(множество) к списку ГРЗ для удаления повторяющихся ГРЗ.
             for el in set(dict_input[i]):
@@ -104,23 +106,70 @@ def iteration_one_to_many_lists(dict_input_user):
 
 def iteration_summ_list(dict_input_user):
     """Добавить описание"""
+    # Создаем в открытом xlsx файле новый лист
+    wb.create_sheet(title='Общее сравнение', index=1)
+    sheet = wb['Общее сравнение']
+    # Сравниваем мужду собой списоки a и b. Список b всегда больше списка a.
     a = 1
     b = 2
+    # Создаем счетчик i, который после каждого завершения операции увеличивается на 1
     i = 0
+    # номера ячеек для заголовка (строка + столбец)
+    row_number = 1
+    col_number = 1
+    # номера ячеек для значений (строка + столбец)
+    row = 1
+    column = 1
+
     dict_input = dict_input_user
     while a < len(dict_input):
         print('------ СОВПАДЕНИЯ СПИСКА № ' + str(a) + ' -------')
         while i < len(dict_input) and b < (len(dict_input) + 1):
+            # Если пересечения множества списков a и b имеет 1 и более элементов
             if len(set(dict_input[a]) & set(dict_input[b])) > 0:
+                row = row + 1
+                # заполняем ячейки оглавления
+                cell_name = sheet.cell(row=row_number, column=col_number)
+                cell_name.value = f"с {a} по {b}"
+
                 print('Совпадения между списком № ' + str(a) + ' и списком № ' + str(b))
                 print(set(dict_input[a]) & set(dict_input[b]))
                 result = list(set(dict_input[a]) & set(dict_input[b]))
+
+                for el in result:
+                    # заполняем ячейки повторяющимися ГРЗ
+                    cell_value = sheet.cell(row=row, column=column)
+                    cell_value.value = el
+                    # Добавляем к строке единицу
+                    row = row + 1
+
+                # столбец оглавления сдвигается вправо
+                col_number = col_number + 1
+                # столбец с совпадающими ГРЗ сдвигается вправо
+                column = column + 1
+                # строка снова становится на вторую позицию (следующую за строкой с оглавлением)
+                row = 2
                 b = b + 1
                 while i < len(dict_input) and b < (len(dict_input) + 1):
                     if len(set(result) & set(dict_input[b])) > 0:
+                        # столбец оглавления сдвигается вправо
+                        col_number = col_number + 1
+                        # столбец с совпадающими ГРЗ сдвигается вправо
+                        column = column + 1
+                        cell_name = sheet.cell(row=row_number, column=col_number)
+                        cell_name.value = f"с {a} по {b}"
+
                         print('Совпадения предыдущих списков со списокм № ' + str(b))
                         print(set(result) & set(dict_input[b]))
                         result = list(set(result) & set(dict_input[b]))
+
+                        for el in result:
+                            # заполняем ячейки повторяющимися ГРЗ
+                            cell_value = sheet.cell(row=row, column=column)
+                            cell_value.value = el
+                            # Добавляем к строке единицу
+                            row = row + 1
+
                         b = b + 1
                     else:
                         print('Нет совпадений предыдущих списков со списокм № ' + str(b))
@@ -131,6 +180,7 @@ def iteration_summ_list(dict_input_user):
                 b = b + 1
         a = a + 1
         b = a + 1
+        wb.save('result.xlsx')
 
 
 dict_input, other = return_dict_all_grz()
