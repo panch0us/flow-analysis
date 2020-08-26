@@ -6,9 +6,9 @@ import openpyxl
 #from collections import Counter
 
 # указываем дирректорию расположения файлов для дальнейшей обработки
-#DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
+DIRECTORY = 'C:/Users/asus/Desktop/home/test/analiz/csv/number/'
 #DIRECTORY = 'C:/Users/umvd/Desktop/Анализ_потоков/csv/номер/'
-DIRECTORY = 'C:/Users/panchous/PycharmProjects/data/potok_analisys/'
+#DIRECTORY = 'C:/Users/panchous/PycharmProjects/data/potok_analisys/'
 
 # Открываем xlsx файл
 wb = openpyxl.Workbook()
@@ -124,7 +124,7 @@ def iteration_summ_list(dict_input_user):
     dict_input = dict_input_user
     while a < len(dict_input):
         print('------ СОВПАДЕНИЯ СПИСКА № ' + str(a) + ' -------')
-        while i < len(dict_input) and b < (len(dict_input) + 1):
+        while b < (len(dict_input) + 1):
             # Если пересечения множества списков a и b имеет 1 и более элементов
             if len(set(dict_input[a]) & set(dict_input[b])) > 0:
                 row = row + 1
@@ -150,12 +150,9 @@ def iteration_summ_list(dict_input_user):
                 # строка снова становится на вторую позицию (следующую за строкой с оглавлением)
                 row = 2
                 b = b + 1
-                while i < len(dict_input) and b < (len(dict_input) + 1):
+                while b < (len(dict_input) + 1):
                     if len(set(result) & set(dict_input[b])) > 0:
-                        # столбец оглавления сдвигается вправо
-                        col_number = col_number + 1
-                        # столбец с совпадающими ГРЗ сдвигается вправо
-                        column = column + 1
+
                         cell_name = sheet.cell(row=row_number, column=col_number)
                         cell_name.value = f"с {a} по {b}"
 
@@ -170,13 +167,39 @@ def iteration_summ_list(dict_input_user):
                             # Добавляем к строке единицу
                             row = row + 1
 
+                        # столбец оглавления сдвигается вправо
+                        col_number = col_number + 1
+                        # столбец с совпадающими ГРЗ сдвигается вправо
+                        column = column + 1
+
+                        row = 2
                         b = b + 1
                     else:
                         print('Нет совпадений предыдущих списков со списокм № ' + str(b))
+                        # заполняем ячейки оглавления
+                        cell_name = sheet.cell(row=row_number, column=col_number)
+                        cell_name.value = f"с {a} по {b}"
+
+                        # столбец оглавления сдвигается вправо
+                        col_number = col_number + 1
+                        # столбец с совпадающими ГРЗ сдвигается вправо
+                        column = column + 1
+
+                        row = 2
+
                         b = b + 1
                     i = i + 1
             else:
                 print('Совпадения между списком № ' + str(a) + ' и списком № ' + str(b) + ' НЕТ')
+                # заполняем ячейки оглавления
+                cell_name = sheet.cell(row=row_number, column=col_number)
+                cell_name.value = f"с {a} и {b}"
+
+                # столбец оглавления сдвигается вправо
+                col_number = col_number + 1
+                # столбец с совпадающими ГРЗ сдвигается вправо
+                column = column + 1
+                row = 1
                 b = b + 1
         a = a + 1
         b = a + 1
